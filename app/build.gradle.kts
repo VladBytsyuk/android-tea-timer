@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "io.vbytsyuk.tea"
-    compileSdk = 33
+    namespace = Config.NAMESPACE
+    compileSdk = Config.SDK.COMPILE
 
     defaultConfig {
         applicationId = "io.vbytsyuk.tea"
-        minSdk = 26
-        targetSdk = 33
+        minSdk = Config.SDK.MIN
+        targetSdk = Config.SDK.COMPILE
         versionCode = 1
         versionName = "1.0"
 

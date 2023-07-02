@@ -47,6 +47,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":uikit"))
 
     implementation("androidx.core:core-ktx:1.10.1")
     implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))

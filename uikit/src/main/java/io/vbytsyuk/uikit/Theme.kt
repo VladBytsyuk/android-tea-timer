@@ -1,4 +1,4 @@
-package io.vbytsyuk.tea.ui.theme
+package io.vbytsyuk.uikit
 
 import android.app.Activity
 import android.os.Build

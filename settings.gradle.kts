@@ -13,5 +13,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "tea"
-include ':app'
-include ':uikit'
+include(
+    ":app",
+    ":uikit",
+)

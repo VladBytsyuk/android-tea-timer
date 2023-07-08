@@ -39,6 +39,9 @@ object Config {
 
         const val KOTLIN = "org.jetbrains.kotlin.android"
         const val KOTLIN_VERSION = "1.7.20"
+
+        const val DETEKT = "io.gitlab.arturbosch.detekt"
+        const val DETEKT_VERSION = "1.23.0"
     }
 
     object Compose {

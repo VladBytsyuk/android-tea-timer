@@ -17,6 +17,10 @@ object Deps {
         const val BOM = "org.jetbrains.kotlin:kotlin-bom:1.8.0"
     }
 
+    object Detekt {
+        const val FORMATTING = "io.gitlab.arturbosch.detekt:detekt-formatting:${Config.Plugin.DETEKT_VERSION}"
+    }
+
     object Test {
         const val JUNIT = "junit:junit:4.13.2"
 

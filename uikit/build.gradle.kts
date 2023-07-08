@@ -1,6 +1,6 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id(Config.Plugin.ANDROID_LIBRARY)
+    id(Config.Plugin.KOTLIN)
 }
 
 android {
@@ -11,46 +11,69 @@ android {
         minSdk = Config.SDK.MIN
         targetSdk = Config.SDK.COMPILE
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
+        testInstrumentationRunner = Config.ANDROID_JUNIT_RUNNER
+        consumerProguardFiles(Config.Proguard.CONSUMER_RULES)
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isMinifyEnabled = Config.Proguard.IS_MINIFY
+            proguardFiles(getDefaultProguardFile(Config.Proguard.OPTIMIZE), Config.Proguard.RULES)
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Config.JVM.VERSION
+        targetCompatibility = Config.JVM.VERSION
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Config.JVM.TARGET
     }
     buildFeatures {
-        compose = true
+        compose = Config.Compose.IS_ENABLED
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = Config.Compose.COMPILER_VERSION
     }
 }
 
 dependencies {
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
-    implementation("androidx.activity:activity-compose:1.7.2")
-    implementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    implementation("androidx.compose.ui:ui")
-    implementation("androidx.compose.ui:ui-graphics")
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("androidx.compose.material3:material3")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation(platform("androidx.compose:compose-bom:2022.10.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
-    debugImplementation("androidx.compose.ui:ui-tooling")
-    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    implementation(
+        Deps.Android.CORE_KTX,
+        Deps.Android.LIFECYCLE_RUNTIME_KTX,
+
+        Deps.Android.Compose.ACTIVITY,
+        Deps.Android.Compose.UI,
+        Deps.Android.Compose.UI_GRAPHICS,
+        Deps.Android.Compose.UI_TOOLING_PREVIEW,
+        Deps.Android.Compose.MATERIAL_3,
+
+        platform(Deps.Android.Compose.BOM),
+        platform(Deps.Kotlin.BOM),
+    )
+
+    testImplementation(
+        Deps.Test.JUNIT,
+    )
+
+    androidTestImplementation(
+        Deps.Test.Android.ESPRESSO,
+        Deps.Test.Android.JUNIT_EXT,
+        Deps.Test.Android.JUNIT_COMPOSE,
+
+        platform(Deps.Android.Compose.BOM),
+    )
+
+    debugImplementation(
+        Deps.Debug.Compose.TOOLING,
+        Deps.Debug.Compose.TEST_MANIFEST,
+    )
 }
+
+fun DependencyHandlerScope.implementation(vararg dependencies: Any) =
+    dependencies.forEach(::implementation)
+
+fun DependencyHandlerScope.androidTestImplementation(vararg dependencies: Any) =
+    dependencies.forEach(::androidTestImplementation)
+
+fun DependencyHandlerScope.debugImplementation(vararg dependencies: Any) =
+    dependencies.forEach(::debugImplementation)

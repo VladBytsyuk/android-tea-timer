@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import io.vbytsyuk.domain.Time
-import io.vbytsyuk.timer.Timer
+import io.vbytsyuk.timer.TimerScreen
 import io.vbytsyuk.uikit.TeaTheme
 
 class MainActivity : ComponentActivity() {
@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    Timer(time = Time(minutes = 12, seconds = 34))
+                    TimerScreen(time = Time(minutes = 12, seconds = 34))
                 }
             }
         }

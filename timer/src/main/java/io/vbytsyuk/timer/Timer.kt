@@ -13,7 +13,7 @@ fun Timer(
     modifier: Modifier = Modifier,
 ) = Box(modifier = modifier) {
     Text(
-        text = "${time.minutes}:${time.seconds}",
+        text = time.toString(),
     )
 }
 

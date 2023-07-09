@@ -16,4 +16,5 @@ rootProject.name = "tea"
 include(
     ":app",
     ":uikit",
+    ":timer",
 )

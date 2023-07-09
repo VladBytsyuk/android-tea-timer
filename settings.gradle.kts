@@ -17,4 +17,5 @@ include(
     ":app",
     ":uikit",
     ":timer",
+    ":domain",
 )

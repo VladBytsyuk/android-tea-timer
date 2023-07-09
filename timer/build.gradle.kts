@@ -39,6 +39,7 @@ android {
 dependencies {
     implementation(
         project(Modules.UI_KIT),
+        project(Modules.DOMAIN),
     )
 
     implementation(

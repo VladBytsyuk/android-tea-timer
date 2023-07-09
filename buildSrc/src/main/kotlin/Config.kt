@@ -38,7 +38,10 @@ object Config {
         const val ANDROID_VERSION = "8.0.2"
 
         const val KOTLIN = "org.jetbrains.kotlin.android"
+        const val KOTLIN_JVM = "org.jetbrains.kotlin.jvm"
         const val KOTLIN_VERSION = "1.7.20"
+
+        const val JAVA_LIBRARY = "java-library"
 
         const val DETEKT = "io.gitlab.arturbosch.detekt"
         const val DETEKT_VERSION = "1.23.0"

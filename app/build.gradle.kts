@@ -53,6 +53,8 @@ android {
 dependencies {
     implementation(
         project(Modules.UI_KIT),
+        project(Modules.TIMER),
+        project(Modules.DOMAIN),
     )
 
     implementation(

@@ -42,7 +42,7 @@ jobs:
       - name: Run detekt with Gradle
         run: ./gradlew detekt
 
-  unit-tests/app:
+  unit-tests-app:
     runs-on: ubuntu-latest
     needs: [ build, detekt ]
 
@@ -61,7 +61,7 @@ jobs:
         run: ./gradlew :app:testDebugUnitTest
 
 
-  unit-tests/domain:
+  unit-tests-domain:
     runs-on: ubuntu-latest
     needs: [ build, detekt ]
 

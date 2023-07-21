@@ -24,6 +24,14 @@ object Deps {
     object Test {
         const val JUNIT = "junit:junit:4.13.2"
 
+        object KoTest {
+            private const val VERSION = "5.6.2"
+            const val FRAMEWORK = "io.kotest:kotest-runner-junit5:$VERSION"
+            const val ASSERTIONS = "io.kotest:kotest-assertions-core:$VERSION"
+            const val PROPERTY = "io.kotest:kotest-property:$VERSION"
+            const val DATASET = "io.kotest:kotest-framework-datatest:$VERSION"
+        }
+
         object Android {
             const val JUNIT_EXT = "androidx.test.ext:junit:1.1.5"
             const val JUNIT_COMPOSE = "androidx.compose.ui:ui-test-junit4"

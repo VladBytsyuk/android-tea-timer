@@ -11,7 +11,15 @@ java {
 dependencies {
     testImplementation(
         Deps.Test.JUNIT,
+        Deps.Test.KoTest.FRAMEWORK,
+        Deps.Test.KoTest.ASSERTIONS,
+        Deps.Test.KoTest.PROPERTY,
+        Deps.Test.KoTest.DATASET,
     )
+}
+
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
 }
 
 fun DependencyHandlerScope.testImplementation(vararg dependencies: Any) =

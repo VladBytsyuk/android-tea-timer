@@ -1,4 +1,4 @@
-package io.vbytsyuk.timer
+package io.vbytsyuk.timer.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.Box

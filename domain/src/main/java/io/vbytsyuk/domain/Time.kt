@@ -19,6 +19,8 @@ data class Time(
         get() = Second(value = milliseconds / MILLISECONDS_IN_SECOND % SECONDS_IN_MINUTE)
 
     override fun toString(): String = "$minute:$second"
+
+    fun isNotEmpty(): Boolean = milliseconds != 0L
 }
 
 @JvmInline

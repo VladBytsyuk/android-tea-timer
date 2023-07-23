@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -16,11 +17,11 @@ internal class TimerServiceCoroutines : TimerService {
 
     private val _timeStateFlow: MutableStateFlow<Time> = MutableStateFlow(Time(milliseconds = 0L))
     override val timeFlow: Flow<Time> get() = _timeStateFlow
-
-    private val currentTime: Time get() = _timeStateFlow.value
+    override val time: Time get() = _timeStateFlow.value
 
     private var _stateFlow: MutableStateFlow<TimerService.State> = MutableStateFlow(TimerService.State.IDLE)
     override val stateFlow: Flow<TimerService.State> get() = _stateFlow
+    override val state: TimerService.State get() = _stateFlow.value
 
     override fun start(time: Time) {
         saveState(TimerService.State.RUNNING)
@@ -44,12 +45,13 @@ internal class TimerServiceCoroutines : TimerService {
     override fun reset() {
         saveState(TimerService.State.IDLE)
         timerJob.cancel()
-        if (currentTime.isNotEmpty()) emitTime(ms = 0)
+        if (time.isNotEmpty()) emitTime(ms = 0)
     }
 
     private fun runCoroutine() = CoroutineScope(Dispatchers.Default + timerJob).launch {
-        while (currentTime.isNotEmpty()) {
+        while (time.isNotEmpty()) {
             delay(CHECK_DURATION_MS)
+            timerJob.ensureActive()
             check()
         }
         reset()
@@ -59,7 +61,7 @@ internal class TimerServiceCoroutines : TimerService {
         val currentMs = getSystemMs()
         val diffMs = currentMs - lastCheckMs
         lastCheckMs = currentMs
-        val newTimeMs = currentTime.milliseconds - diffMs
+        val newTimeMs = time.milliseconds - diffMs
         emitTime(ms = if (newTimeMs > 0L) newTimeMs else 0L)
     }
 

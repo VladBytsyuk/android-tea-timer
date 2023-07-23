@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface TimerService {
     val timeFlow: Flow<Time>
+    val time: Time
+
     val stateFlow: Flow<State>
+    val state: State
 
     fun start(time: Time)
     fun pause()

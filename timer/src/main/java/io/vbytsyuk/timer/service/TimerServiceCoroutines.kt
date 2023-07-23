@@ -1,4 +1,4 @@
-package io.vbytsyuk.timer
+package io.vbytsyuk.timer.service
 
 import io.vbytsyuk.domain.Time
 import kotlinx.coroutines.CoroutineScope

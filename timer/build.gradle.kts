@@ -58,6 +58,10 @@ dependencies {
 
     testImplementation(
         Deps.Test.JUNIT,
+        Deps.Test.KoTest.FRAMEWORK,
+        Deps.Test.KoTest.ASSERTIONS,
+        Deps.Test.KoTest.PROPERTY,
+        Deps.Test.KoTest.DATASET,
     )
 
     androidTestImplementation(
@@ -74,8 +78,15 @@ dependencies {
     )
 }
 
+tasks.withType<Test>().configureEach {
+    useJUnitPlatform()
+}
+
 fun DependencyHandlerScope.implementation(vararg dependencies: Any) =
     dependencies.forEach(::implementation)
+
+fun DependencyHandlerScope.testImplementation(vararg dependencies: Any) =
+    dependencies.forEach(::testImplementation)
 
 fun DependencyHandlerScope.androidTestImplementation(vararg dependencies: Any) =
     dependencies.forEach(::androidTestImplementation)

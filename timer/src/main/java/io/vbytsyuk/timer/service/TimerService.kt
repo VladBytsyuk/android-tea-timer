@@ -1,10 +1,11 @@
-package io.vbytsyuk.timer
+package io.vbytsyuk.timer.service
 
 import io.vbytsyuk.domain.Time
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.StateFlow
 
 interface TimerService {
+    enum class State { IDLE, RUNNING, PAUSED }
+
     val timeFlow: Flow<Time>
     val time: Time
 
@@ -15,6 +16,4 @@ interface TimerService {
     fun pause()
     fun resume()
     fun reset()
-
-    enum class State { IDLE, RUNNING, PAUSED }
 }

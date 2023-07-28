@@ -51,7 +51,7 @@ internal class TimerServiceCoroutines : TimerService {
     private fun runCoroutine() = CoroutineScope(Dispatchers.Default + timerJob).launch {
         while (time.isNotEmpty()) {
             delay(CHECK_DURATION_MS)
-            timerJob.ensureActive()
+            ensureActive()
             check()
         }
         reset()

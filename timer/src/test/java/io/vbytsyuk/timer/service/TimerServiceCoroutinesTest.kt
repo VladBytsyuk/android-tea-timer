@@ -94,5 +94,27 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
                 service.time.toString() shouldBe "00:00"
             }
         }
+
+        `when`("start it with 2 seconds") {
+            service.start(Time(minutes = 0, seconds = 2))
+
+            then("state should be RUNNING") {
+                service.state shouldBe TimerService.State.RUNNING
+            }
+            then("time should be 00:02") {
+                service.time.toString() shouldBe "00:02"
+            }
+        }
+
+        `when`("wait 2 seconds") {
+            delay(2_000L)
+
+            then("state should be IDLE") {
+                service.state shouldBe TimerService.State.IDLE
+            }
+            then("time should be 00:00") {
+                service.time.toString() shouldBe "00:00"
+            }
+        }
     }
 })

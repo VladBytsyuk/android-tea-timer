@@ -3,4 +3,5 @@ object Modules {
     const val UI_KIT = ":uikit"
     const val TIMER = ":timer"
     const val DOMAIN = ":domain"
+    const val CORE = ":core"
 }

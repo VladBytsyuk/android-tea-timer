@@ -40,6 +40,7 @@ dependencies {
     implementation(
         project(Modules.UI_KIT),
         project(Modules.DOMAIN),
+        project(Modules.CORE),
     )
 
     implementation(

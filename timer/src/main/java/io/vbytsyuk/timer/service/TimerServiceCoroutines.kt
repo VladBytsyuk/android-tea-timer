@@ -1,10 +1,9 @@
 package io.vbytsyuk.timer.service
 
+import io.vbytsyuk.core.delegates.coroutines.reCreatableCoroutineScope
+import io.vbytsyuk.core.delegates.coroutines.reCreatableSupervisorJob
 import io.vbytsyuk.domain.Time
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.flow.Flow
@@ -13,7 +12,9 @@ import kotlinx.coroutines.launch
 
 internal class TimerServiceCoroutines : TimerService {
     private var lastCheckMs: Long = 0L
-    private var timerJob: Job = SupervisorJob()
+
+    private val job by reCreatableSupervisorJob()
+    private val scope by reCreatableCoroutineScope { Dispatchers.Default + job }
 
     private val _timeStateFlow: MutableStateFlow<Time> = MutableStateFlow(Time(milliseconds = 0L))
     override val timeFlow: Flow<Time> get() = _timeStateFlow
@@ -33,7 +34,7 @@ internal class TimerServiceCoroutines : TimerService {
     override fun pause() {
         saveState(TimerService.State.PAUSED)
         lastCheckMs = 0L
-        timerJob.cancel()
+        job.cancel()
     }
 
     override fun resume() {
@@ -44,11 +45,11 @@ internal class TimerServiceCoroutines : TimerService {
 
     override fun reset() {
         saveState(TimerService.State.IDLE)
-        timerJob.cancel()
+        job.cancel()
         if (time.isNotEmpty()) emitTime(ms = 0)
     }
 
-    private fun runCoroutine() = CoroutineScope(Dispatchers.Default + timerJob).launch {
+    private fun runCoroutine() = scope.launch {
         while (time.isNotEmpty()) {
             delay(CHECK_DURATION_MS)
             ensureActive()

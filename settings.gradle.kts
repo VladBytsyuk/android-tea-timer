@@ -18,4 +18,5 @@ include(
     ":uikit",
     ":timer",
     ":domain",
+    ":core",
 )

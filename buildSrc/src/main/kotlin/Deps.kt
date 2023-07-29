@@ -14,6 +14,8 @@ object Deps {
     }
 
     object Kotlin {
+        const val COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
+
         const val BOM = "org.jetbrains.kotlin:kotlin-bom:1.8.0"
     }
 

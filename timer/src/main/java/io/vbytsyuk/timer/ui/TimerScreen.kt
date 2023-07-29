@@ -7,14 +7,27 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import io.vbytsyuk.domain.Time
 
 @Composable
-fun TimerScreen(time: Time) {
+fun TimerScreen(
+    viewModel: TimerScreenViewModel = viewModel(factory = TimerScreenViewModel.Factory()),
+) = TimerScreen(
+    time = viewModel.time.collectAsState(initial = Time(minutes = 0, seconds = 5)).value,
+    onButtonClick = viewModel::onButtonClick,
+)
+
+@Composable
+fun TimerScreen(
+    time: Time,
+    onButtonClick: () -> Unit= {},
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -26,7 +39,7 @@ fun TimerScreen(time: Time) {
                 modifier = Modifier.align(Alignment.CenterHorizontally),
             )
             Button(
-                onClick = {},
+                onClick = onButtonClick,
             ) {
                 Text(text = "Play")
             }

@@ -52,6 +52,7 @@ dependencies {
         Deps.Android.Compose.UI_GRAPHICS,
         Deps.Android.Compose.UI_TOOLING_PREVIEW,
         Deps.Android.Compose.MATERIAL_3,
+        Deps.Android.Compose.VIEW_MODEL,
 
         platform(Deps.Android.Compose.BOM),
         platform(Deps.Kotlin.BOM),

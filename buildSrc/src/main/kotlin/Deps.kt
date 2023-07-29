@@ -9,6 +9,7 @@ object Deps {
             const val UI_TOOLING_PREVIEW = "androidx.compose.ui:ui-tooling-preview"
             const val MATERIAL_3 = "androidx.compose.material3:material3"
             const val ACTIVITY = "androidx.activity:activity-compose:1.7.2"
+            const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1"
             const val BOM = "androidx.compose:compose-bom:2022.10.00"
         }
     }

@@ -9,9 +9,9 @@ import io.vbytsyuk.timer.service.TimerServiceCoroutines
 class TimerScreenViewModel(
     private val timerService: TimerService,
 ) : ViewModel() {
-    val time = timerService.timeFlow
+    val time = timerService.time
 
-    fun onButtonClick() = when (timerService.state) {
+    fun onButtonClick() = when (timerService.currentState) {
         TimerService.State.IDLE -> timerService.start(Time(minutes = 0, seconds = 5))
         TimerService.State.RUNNING -> timerService.pause()
         TimerService.State.PAUSED -> timerService.resume()

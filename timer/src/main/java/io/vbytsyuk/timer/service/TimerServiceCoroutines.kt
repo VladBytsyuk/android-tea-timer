@@ -17,12 +17,10 @@ internal class TimerServiceCoroutines : TimerService {
     private val scope by reCreatableCoroutineScope { Dispatchers.Default + job }
 
     private val _timeStateFlow: MutableStateFlow<Time> = MutableStateFlow(Time(milliseconds = 0L))
-    override val timeFlow: Flow<Time> get() = _timeStateFlow
-    override val time: Time get() = _timeStateFlow.value
+    override val time get() = _timeStateFlow
 
     private var _stateFlow: MutableStateFlow<TimerService.State> = MutableStateFlow(TimerService.State.IDLE)
-    override val stateFlow: Flow<TimerService.State> get() = _stateFlow
-    override val state: TimerService.State get() = _stateFlow.value
+    override val state get() = _stateFlow
 
     override fun start(time: Time) {
         saveState(TimerService.State.RUNNING)
@@ -46,11 +44,11 @@ internal class TimerServiceCoroutines : TimerService {
     override fun reset() {
         saveState(TimerService.State.IDLE)
         job.cancel()
-        if (time.isNotEmpty()) emitTime(ms = 0)
+        if (currentTime.isNotEmpty()) emitTime(ms = 0)
     }
 
     private fun runCoroutine() = scope.launch {
-        while (time.isNotEmpty()) {
+        while (currentTime.isNotEmpty()) {
             delay(CHECK_DURATION_MS)
             ensureActive()
             check()
@@ -62,7 +60,7 @@ internal class TimerServiceCoroutines : TimerService {
         val currentMs = getSystemMs()
         val diffMs = currentMs - lastCheckMs
         lastCheckMs = currentMs
-        val newTimeMs = time.milliseconds - diffMs
+        val newTimeMs = currentTime.milliseconds - diffMs
         emitTime(ms = if (newTimeMs > 0L) newTimeMs else 0L)
     }
 

@@ -11,10 +11,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
 
         `when`("it is constructed") {
             then("state should be IDLE") {
-                service.state shouldBe TimerService.State.IDLE
+                service.currentState shouldBe TimerService.State.IDLE
             }
             then("time should be 00:00") {
-                service.time.toString() shouldBe "00:00"
+                service.currentTime.toString() shouldBe "00:00"
             }
         }
 
@@ -22,10 +22,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             service.start(Time(minutes = 0, seconds = 5))
 
             then("state should be RUNNING") {
-                service.state shouldBe TimerService.State.RUNNING
+                service.currentState shouldBe TimerService.State.RUNNING
             }
             then("time should be 00:05") {
-                service.time.toString() shouldBe "00:05"
+                service.currentTime.toString() shouldBe "00:05"
             }
         }
 
@@ -33,10 +33,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             delay(950L)
 
             then("state should be RUNNING") {
-                service.state shouldBe TimerService.State.RUNNING
+                service.currentState shouldBe TimerService.State.RUNNING
             }
             then("time should be 00:04") {
-                service.time.toString() shouldBe "00:04"
+                service.currentTime.toString() shouldBe "00:04"
             }
         }
 
@@ -44,10 +44,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             delay(950L)
 
             then("state should be RUNNING") {
-                service.state shouldBe TimerService.State.RUNNING
+                service.currentState shouldBe TimerService.State.RUNNING
             }
             then("time should be 00:03") {
-                service.time.toString() shouldBe "00:03"
+                service.currentTime.toString() shouldBe "00:03"
             }
         }
 
@@ -55,10 +55,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             service.pause()
 
             then("state should be PAUSED") {
-                service.state shouldBe TimerService.State.PAUSED
+                service.currentState shouldBe TimerService.State.PAUSED
             }
             then("time should be 00:03") {
-                service.time.toString() shouldBe "00:03"
+                service.currentTime.toString() shouldBe "00:03"
             }
         }
 
@@ -66,10 +66,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             delay(950)
 
             then("state should be PAUSED") {
-                service.state shouldBe TimerService.State.PAUSED
+                service.currentState shouldBe TimerService.State.PAUSED
             }
             then("time should be 00:03") {
-                service.time.toString() shouldBe "00:03"
+                service.currentTime.toString() shouldBe "00:03"
             }
         }
 
@@ -77,10 +77,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             service.resume()
 
             then("state should be RUNNING") {
-                service.state shouldBe TimerService.State.RUNNING
+                service.currentState shouldBe TimerService.State.RUNNING
             }
             then("time should be 00:03") {
-                service.time.toString() shouldBe "00:03"
+                service.currentTime.toString() shouldBe "00:03"
             }
         }
 
@@ -88,10 +88,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             service.reset()
 
             then("state should be IDLE") {
-                service.state shouldBe TimerService.State.IDLE
+                service.currentState shouldBe TimerService.State.IDLE
             }
             then("time should be 00:00") {
-                service.time.toString() shouldBe "00:00"
+                service.currentTime.toString() shouldBe "00:00"
             }
         }
 
@@ -99,10 +99,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             service.start(Time(minutes = 0, seconds = 2))
 
             then("state should be RUNNING") {
-                service.state shouldBe TimerService.State.RUNNING
+                service.currentState shouldBe TimerService.State.RUNNING
             }
             then("time should be 00:02") {
-                service.time.toString() shouldBe "00:02"
+                service.currentTime.toString() shouldBe "00:02"
             }
         }
 
@@ -110,10 +110,10 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
             delay(2_000L)
 
             then("state should be IDLE") {
-                service.state shouldBe TimerService.State.IDLE
+                service.currentState shouldBe TimerService.State.IDLE
             }
             then("time should be 00:00") {
-                service.time.toString() shouldBe "00:00"
+                service.currentTime.toString() shouldBe "00:00"
             }
         }
     }

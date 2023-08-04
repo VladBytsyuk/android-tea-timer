@@ -1,16 +1,16 @@
 package io.vbytsyuk.timer.service
 
 import io.vbytsyuk.domain.Time
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface TimerService {
     enum class State { IDLE, RUNNING, PAUSED }
 
-    val timeFlow: Flow<Time>
-    val time: Time
+    val time: StateFlow<Time>
+    val state: StateFlow<State>
 
-    val stateFlow: Flow<State>
-    val state: State
+    val currentTime: Time get() = time.value
+    val currentState: State get() = state.value
 
     fun start(time: Time)
     fun pause()

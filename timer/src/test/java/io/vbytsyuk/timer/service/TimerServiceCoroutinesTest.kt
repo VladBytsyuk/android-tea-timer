@@ -1,6 +1,7 @@
 package io.vbytsyuk.timer.service
 
 import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.core.spec.style.scopes.BehaviorSpecWhenContainerScope
 import io.kotest.matchers.shouldBe
 import io.vbytsyuk.domain.Time
 import kotlinx.coroutines.delay
@@ -10,111 +11,85 @@ class TimerServiceCoroutinesTest : BehaviorSpec({
         val service: TimerService = TimerServiceCoroutines()
 
         `when`("it is constructed") {
-            then("state should be IDLE") {
-                service.currentState shouldBe TimerService.State.IDLE
-            }
-            then("time should be 00:00") {
-                service.currentTime.toString() shouldBe "00:00"
-            }
+            thenStateShouldBe(service, TimerService.State.IDLE)
+            thenTimeShouldBe(service, "00:00")
         }
 
         `when`("start it with 5 seconds") {
             service.start(Time(minutes = 0, seconds = 5))
 
-            then("state should be RUNNING") {
-                service.currentState shouldBe TimerService.State.RUNNING
-            }
-            then("time should be 00:05") {
-                service.currentTime.toString() shouldBe "00:05"
-            }
+            thenStateShouldBe(service, TimerService.State.RUNNING)
+            thenTimeShouldBe(service, "00:05")
         }
 
         `when`("wait almost 1 second") {
             delay(950L)
 
-            then("state should be RUNNING") {
-                service.currentState shouldBe TimerService.State.RUNNING
-            }
-            then("time should be 00:04") {
-                service.currentTime.toString() shouldBe "00:04"
-            }
+            thenStateShouldBe(service, TimerService.State.RUNNING)
+            thenTimeShouldBe(service, "00:04")
         }
 
         `when`("wait almost 1 second again") {
             delay(950L)
 
-            then("state should be RUNNING") {
-                service.currentState shouldBe TimerService.State.RUNNING
-            }
-            then("time should be 00:03") {
-                service.currentTime.toString() shouldBe "00:03"
-            }
+            thenStateShouldBe(service, TimerService.State.RUNNING)
+            thenTimeShouldBe(service, "00:03")
         }
 
         `when`("pause it") {
             service.pause()
 
-            then("state should be PAUSED") {
-                service.currentState shouldBe TimerService.State.PAUSED
-            }
-            then("time should be 00:03") {
-                service.currentTime.toString() shouldBe "00:03"
-            }
+            thenStateShouldBe(service, TimerService.State.PAUSED)
+            thenTimeShouldBe(service, "00:03")
         }
 
         `when`("wait almost 1 second after pause") {
             delay(950)
 
-            then("state should be PAUSED") {
-                service.currentState shouldBe TimerService.State.PAUSED
-            }
-            then("time should be 00:03") {
-                service.currentTime.toString() shouldBe "00:03"
-            }
+            thenStateShouldBe(service, TimerService.State.PAUSED)
+            thenTimeShouldBe(service, "00:03")
         }
 
         `when`("resume it") {
             service.resume()
 
-            then("state should be RUNNING") {
-                service.currentState shouldBe TimerService.State.RUNNING
-            }
-            then("time should be 00:03") {
-                service.currentTime.toString() shouldBe "00:03"
-            }
+            thenStateShouldBe(service, TimerService.State.RUNNING)
+            thenTimeShouldBe(service, "00:03")
         }
 
         `when`("reset it") {
             service.reset()
 
-            then("state should be IDLE") {
-                service.currentState shouldBe TimerService.State.IDLE
-            }
-            then("time should be 00:00") {
-                service.currentTime.toString() shouldBe "00:00"
-            }
+            thenStateShouldBe(service, TimerService.State.IDLE)
+            thenTimeShouldBe(service, "00:00")
         }
 
         `when`("start it with 2 seconds") {
             service.start(Time(minutes = 0, seconds = 2))
 
-            then("state should be RUNNING") {
-                service.currentState shouldBe TimerService.State.RUNNING
-            }
-            then("time should be 00:02") {
-                service.currentTime.toString() shouldBe "00:02"
-            }
+            thenStateShouldBe(service, TimerService.State.RUNNING)
+            thenTimeShouldBe(service, "00:02")
         }
 
         `when`("wait 2 seconds") {
             delay(2_000L)
 
-            then("state should be IDLE") {
-                service.currentState shouldBe TimerService.State.IDLE
-            }
-            then("time should be 00:00") {
-                service.currentTime.toString() shouldBe "00:00"
-            }
+            thenStateShouldBe(service, TimerService.State.IDLE)
+            thenTimeShouldBe(service, "00:00")
         }
     }
 })
+
+private suspend fun BehaviorSpecWhenContainerScope.thenStateShouldBe(
+    service: TimerService,
+    expected: TimerService.State,
+) = then("state should be $expected") {
+    service.currentState shouldBe expected
+}
+
+private suspend fun BehaviorSpecWhenContainerScope.thenTimeShouldBe(
+    service: TimerService,
+    expected: String,
+) = then("time should be $expected") {
+    service.currentTime.toString() shouldBe expected
+}

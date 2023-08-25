@@ -42,13 +42,27 @@ private suspend fun FeatureSpecContainerScope.testMillisecondsConstructor() =
         withData(
             nameFn = { (millis, expected) -> "$millis ms should be $expected" },
             0L to "00:00",
-            500L to "00:00",
-            1000L to "00:01",
+
+            1L to "00:01",
+            500L to "00:01",
+            999L to "00:01",
+            1_000L to "00:01",
+
+            1_001L to "00:02",
+            1_999L to "00:02",
+            2_000L to "00:02",
+
+            2_001L to "00:03",
+            2_999L to "00:03",
+            3_000L to "00:03",
+
             10_000L to "00:10",
             59_000L to "00:59",
-            59_999L to "00:59",
+
+            59_999L to "01:00",
             60_000L to "01:00",
             600_000L to "10:00",
+
             3_540_000L to "59:00",
             3_599_000L to "59:59",
             3_600_000L to "60:00",

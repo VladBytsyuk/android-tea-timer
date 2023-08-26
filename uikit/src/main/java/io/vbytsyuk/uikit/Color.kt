@@ -1,9 +1,11 @@
+@file:Suppress("MagicNumber")
+
 package io.vbytsyuk.uikit
 
 import androidx.compose.ui.graphics.Color
 
 object Color {
-    val White = Color(0xFFFFFF)
+    val White = Color(0xFFFFFFFF)
 
     val Purple80 = Color(0xFFD0BCFF)
     val PurpleGrey80 = Color(0xFFCCC2DC)

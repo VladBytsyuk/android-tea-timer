@@ -29,7 +29,7 @@ fun TimerScreen(
 fun TimerScreen(
     time: Time,
     state: TimerService.State = TimerService.State.IDLE,
-    onButtonClick: () -> Unit= {},
+    onButtonClick: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -65,4 +65,3 @@ private val PREVIEW_TIME = Time(minutes = 12, seconds = 34)
 )
 @Composable
 private fun TimerScreen_preview() = TimerScreen(PREVIEW_TIME)
-

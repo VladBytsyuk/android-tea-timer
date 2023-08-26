@@ -94,19 +94,30 @@ dependencies {
 }
 
 detekt {
-    buildUponDefaultConfig = true // preconfigure defaults
-    allRules = false // activate all available (even unstable) rules.
-    config.setFrom("$projectDir/config/detekt.yml") // point to your custom config defining rules to run, overwriting default behavior
-    baseline = file("$projectDir/config/baseline.xml") // a way of suppressing issues before introducing detekt
+    source.setFrom(
+        "../app/src/main/java",
+        "../core/src/main/java",
+        "../domain/src/main/java",
+        "../timer/src/main/java",
+        "../uikit/src/main/java",
+    )
+    buildUponDefaultConfig = true
+    allRules = false
+    config.setFrom("$projectDir/config/detekt.yml")
+    baseline = file("$projectDir/config/baseline.xml")
+}
+
+fun createSourcesList(vararg modules: String) = buildList<String> {
+    modules.map { it.removePrefix(":")} .forEach { moduleName ->
+        this += "../$moduleName/src/main/java"
+        this += "../$moduleName/src/main/kotlin"
+    }
 }
 
 tasks.withType<Detekt>().configureEach {
     reports {
-        html.required.set(true) // observe findings in your browser with structure and code snippets
-        xml.required.set(false) // checkstyle like format mainly for integrations like Jenkins
-        txt.required.set(false) // similar to the console output, contains issue signature to manually edit baseline files
-        sarif.required.set(false) // standardized SARIF format (https://sarifweb.azurewebsites.net/) to support integrations with GitHub Code Scanning
-        md.required.set(true) // simple Markdown format
+        html.required.set(true)
+        md.required.set(true)
     }
 }
 

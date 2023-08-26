@@ -14,18 +14,21 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.vbytsyuk.domain.Time
+import io.vbytsyuk.timer.service.TimerService
 
 @Composable
 fun TimerScreen(
     viewModel: TimerScreenViewModel = viewModel(factory = TimerScreenViewModel.Factory()),
 ) = TimerScreen(
     time = viewModel.time.collectAsState(initial = Time(minutes = 0, seconds = 5)).value,
+    state = viewModel.state.collectAsState(initial = TimerService.State.IDLE).value,
     onButtonClick = viewModel::onButtonClick,
 )
 
 @Composable
 fun TimerScreen(
     time: Time,
+    state: TimerService.State = TimerService.State.IDLE,
     onButtonClick: () -> Unit= {},
 ) {
     Box(
@@ -41,7 +44,12 @@ fun TimerScreen(
             Button(
                 onClick = onButtonClick,
             ) {
-                Text(text = "Play")
+                val text = when (state) {
+                    TimerService.State.IDLE -> "Start"
+                    TimerService.State.RUNNING -> "Pause"
+                    TimerService.State.PAUSED -> "Play"
+                }
+                Text(text = text)
             }
         }
     }
@@ -49,21 +57,12 @@ fun TimerScreen(
 
 private val PREVIEW_TIME = Time(minutes = 12, seconds = 34)
 
-@Preview(
-    device = Devices.PHONE,
-)
-@Composable
-private fun Timer_phone() = TimerScreen(PREVIEW_TIME)
-
-@Preview(
-    device = Devices.TABLET,
-)
-@Composable
-private fun Timer_tablet() = TimerScreen(PREVIEW_TIME)
-
+@Preview(device = Devices.PHONE)
+@Preview(device = Devices.TABLET)
 @Preview(
     device = Devices.WEAR_OS_LARGE_ROUND,
     uiMode = Configuration.UI_MODE_NIGHT_NO or Configuration.UI_MODE_TYPE_WATCH,
 )
 @Composable
-private fun Timer_wear() = TimerScreen(PREVIEW_TIME)
+private fun TimerScreen_preview() = TimerScreen(PREVIEW_TIME)
+

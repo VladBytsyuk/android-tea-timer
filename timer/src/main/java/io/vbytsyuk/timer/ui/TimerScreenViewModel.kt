@@ -10,6 +10,7 @@ class TimerScreenViewModel(
     private val timerService: TimerService,
 ) : ViewModel() {
     val time = timerService.time
+    val state = timerService.state
 
     fun onButtonClick() = when (timerService.currentState) {
         TimerService.State.IDLE -> timerService.start(Time(minutes = 0, seconds = 5))

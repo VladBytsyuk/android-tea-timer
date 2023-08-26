@@ -107,13 +107,6 @@ detekt {
     baseline = file("$projectDir/config/baseline.xml")
 }
 
-fun createSourcesList(vararg modules: String) = buildList<String> {
-    modules.map { it.removePrefix(":")} .forEach { moduleName ->
-        this += "../$moduleName/src/main/java"
-        this += "../$moduleName/src/main/kotlin"
-    }
-}
-
 tasks.withType<Detekt>().configureEach {
     reports {
         html.required.set(true)

@@ -19,7 +19,7 @@ data class Time(
 
     override fun toString(): String = toFloorString()
 
-    fun toFloorString(): String = "%02d:%02d".format(floorMinute.value, floorSecond.value)
+    fun toFloorString(): String = TIME_PATTERN.format(floorMinute.value, floorSecond.value)
 
     private val floorMinute: Minute
         get() = Minute(value = floor(rawSeconds).extractMinutes())
@@ -27,7 +27,17 @@ data class Time(
     private val floorSecond: Second
         get() = Second(value = floor(rawSeconds).extractSeconds())
 
-    fun toCeilString(): String = "%02d:%02d".format(ceilMinute.value, ceilSecond.value)
+    fun toCeilString(): String = TIME_PATTERN.format(ceilMinute.value, ceilSecond.value)
+
+    val ceilMinuteStrings: Pair<Char, Char>
+        get() = getCeilBlockStrings(ceilMinute.value)
+
+    val ceilSecondStrings: Pair<Char, Char>
+        get() = getCeilBlockStrings(ceilSecond.value)
+
+    private fun getCeilBlockStrings(milliseconds: Int): Pair<Char, Char> =
+        TIME_BLOCK_PATTERN.format(milliseconds)
+            .let { Pair(it.first(), it.last()) }
 
     private val ceilMinute: Minute
         get() = Minute(value = ceil(rawSeconds).extractMinutes())
@@ -61,3 +71,5 @@ private value class Second(val value: Int = 0) {
 
 private const val SECONDS_IN_MINUTE = 60
 private const val MILLISECONDS_IN_SECOND = 1_000
+private const val TIME_BLOCK_PATTERN = "%02d"
+private const val TIME_PATTERN = "$TIME_BLOCK_PATTERN:$TIME_BLOCK_PATTERN"
